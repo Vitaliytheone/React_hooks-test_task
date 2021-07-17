@@ -13,7 +13,7 @@ const PreviousBlock = props => {
 
     return (
         <>
-            <h1 className='center'>usePreviousValue</h1>
+            <h1 className='centerX'>usePreviousValue</h1>
             <Divider />
             <h2>Current value: {count}</h2>
             <h2>Previous value: {prevCountRef.current}</h2>

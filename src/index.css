@@ -12,7 +12,7 @@ code {
     monospace;
 }
 
-.center {
+.centerX {
   display: flex;
   justify-content: center;
 }
