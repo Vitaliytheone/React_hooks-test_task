@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { nanoid } from 'nanoid';
 
 import Button from '@material-ui/core/Button';
@@ -10,9 +10,9 @@ const TodoList = props => {
 
     const [todos, setTodos] = useState([]);
 
-    const addTodo = () => {
+    const addTodo = useCallback(() => {
         setTodos([...todos, { value: '', id: nanoid() }])
-    }
+    }, []);
 
     const removeTodo = (i) => () => {
         setTodos(todos.filter((item, index) => i !== index))
@@ -25,6 +25,13 @@ const TodoList = props => {
         setTodos(newTodos);
     }
 
+    const memoizedCallback = useCallback((i, e) => {
+        let findIndex = todos.findIndex((item, index) => i === index);
+        let newTodos = [...todos];
+        newTodos[findIndex] = { ...newTodos[findIndex], value: e.target.value }
+        setTodos(newTodos);
+    }, [todos]);
+
     console.log('RENDER PARRENT ====>')
     return (
         <>
@@ -33,10 +40,11 @@ const TodoList = props => {
             {todos.map((item, index) => {
                 return (
                     <TodoItem
+                        index={index}
                         key={item.id}
                         value={item.value}
                         onRemove={removeTodo(index)}
-                        onChange={changeTodo(index)}
+                        onChange={memoizedCallback}
                     />
                 )
             })}
