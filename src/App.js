@@ -4,6 +4,7 @@ import Container from '@material-ui/core/Container';
 
 import PreviousBlock from './components/Previous';
 import TodoList from './components/TodoList';
+import AfterRender from './components/AfterRender';
 
 function App() {
   return (
@@ -11,6 +12,7 @@ function App() {
       <Container maxWidth='md'>
         <PreviousBlock />
         <TodoList />
+        <AfterRender />
       </Container>
     </Box>
   );
