@@ -39,7 +39,7 @@ const AfterRender = props => {
             <h1 className='centerX'>Changes in DOM without blinking</h1>
             <Divider />
             <h3 ref={refColor}>
-                This div must be a red color after render
+                This text must be a red color after render
             </h3>
             <div style={{ display: 'flex' }}>
                 {fields(refFocus).map((item, index) => {
