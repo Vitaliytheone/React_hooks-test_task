@@ -10,27 +10,25 @@ const TodoList = props => {
 
     const [todos, setTodos] = useState([]);
 
-    const addTodo = useCallback(() => {
+    const addTodo = () => {
         setTodos([...todos, { value: '', id: nanoid() }])
-    }, []);
-
-    const removeTodo = (i) => () => {
-        setTodos(todos.filter((item, index) => i !== index))
     }
 
-    const changeTodo = (i) => (e) => {
-        let findIndex = todos.findIndex((item, index) => i === index);
-        let newTodos = [...todos];
-        newTodos[findIndex] = { ...newTodos[findIndex], value: e.target.value }
-        setTodos(newTodos);
-    }
+    const removeTodo = useCallback((ID) => {
+        setTodos((prevTodoList) => {
+            const todoListNext = prevTodoList.filter((item) => ID !== item.id);
+            return todoListNext;
+        });
+    }, [])
 
-    const memoizedCallback = useCallback((i, e) => {
-        let findIndex = todos.findIndex((item, index) => i === index);
-        let newTodos = [...todos];
-        newTodos[findIndex] = { ...newTodos[findIndex], value: e.target.value }
-        setTodos(newTodos);
-    }, [todos]);
+    const changeTodo = useCallback((ID, e) => {
+        setTodos((prevTodoList) => {
+            let findIndex = prevTodoList.findIndex((item) => ID === item.id);
+            let newTodos = [...prevTodoList];
+            newTodos[findIndex] = { ...newTodos[findIndex], value: e.target.value }
+            return newTodos;
+        });
+    }, [])
 
     console.log('RENDER PARRENT ====>')
     return (
@@ -38,13 +36,14 @@ const TodoList = props => {
             <h1 className='centerX'>Optimazed Todo List</h1>
             <Divider />
             {todos.map((item, index) => {
+                let { id, value } = item;
                 return (
                     <TodoItem
-                        index={index}
-                        key={item.id}
-                        value={item.value}
-                        onRemove={removeTodo(index)}
-                        onChange={memoizedCallback}
+                        key={id}
+                        id={id}
+                        value={value}
+                        onRemove={removeTodo}
+                        onChange={changeTodo}
                     />
                 )
             })}

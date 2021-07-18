@@ -4,26 +4,25 @@ import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 
-const TodoItem = memo(({ onRemove, onChange, value = '', index }) => {
+const TodoItem = ({ onRemove, onChange, value = '', id }) => {
     console.log('RENDER CHILD')
     return (
         <Box mt='16px'>
             <TextField
                 value={value}
-                // onChange={onChange}
-                onChange={(e) => onChange(index, e)}
+                onChange={(e) => onChange(id, e)}
             />
             <Button
                 style={{ marginLeft: '16px' }}
                 color='secondary'
                 variant='contained'
-                onClick={onRemove}
+                onClick={() => onRemove(id)}
             >
                 х
             </Button>
         </Box>
     )
-})
+}
 
 TodoItem.propTypes = {
     onRemove: PropTypes.func,
@@ -31,4 +30,4 @@ TodoItem.propTypes = {
     value: PropTypes.string
 }
 
-export default TodoItem
+export default memo(TodoItem)
